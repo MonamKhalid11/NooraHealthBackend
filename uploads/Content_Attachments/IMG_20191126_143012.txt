@@ -1,0 +1,550 @@
+<template>
+  <div>
+    <div class="o-x-h">
+      <div class="row panel-container">
+        <div class="left-container col-md-8 col-sm-8 col-xs-12" ref="leftContainer">
+          <div class="w-69 w-sm-100">
+            <div class="row mb-3" v-if="routeName=='Sample Size'">
+              <div class="col-md-12 mb-3">
+                <h2>Sample Size</h2>
+                <div class="h-200 bg-gray"></div>
+              </div>
+              <div class="col-md-12 row mb-3">
+                <div class="col-md-12">
+                  <p class="text-light description mt-3 mb-3">
+                    To determine how long you test will take, we'll feed your answers from this questionnaire into
+                    test's
+                    test
+                    calculator. You can see the cost dynamically change in the box to your right. To determine how
+                    many
+                    units to
+                    test, test guidelines are divided into three categories which we'll call :
+                    <ul class="mt-3 list-type1">
+                      <li>
+                        <span>Light (1)</span>
+                      </li>
+                      <li>
+                        <span>Normal (2)</span>
+                      </li>
+                      <li>
+                        <span>Strict (3)</span>
+                      </li>
+                    </ul>
+                  </p>
+                </div>
+            
+                <div class="col-md-12 mb-3" v-for="(item,index) in productData">
+              
+                  <div class="bg-gray p-3 border-2 medium mb-3" @click="selectProduct(index)">
+                    <div class="row ">
+                      <div class="col-md-2 col-sm-2 col-xs-4 text-right text-light">
+                        Product {{index + 1}} :
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-6">
+                        <span class="text-bold">{{item.data.name || item.data.category}}</span>
+                      </div>
+                      <div class="col-md-2 col-sm-2 col-xs-2 text-right text-light">
+                        <span :class="'glyphicon glyphicon-chevron-'+((prductCollapse[index])?'down':'up')"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <collapse v-model="prductCollapse[index]">
+                    <div class="mb-3" v-if="item.sampleData">
+                      <div class="form-group">
+                        <label class="medium" for="">Wht is a sale channel?</label>
+
+                        <div class="position-relative vertical-align mb-3" v-for="channel in saleChannels">
+                          <input class="cbx-target" type="checkbox" :value="channel.id"
+                            v-model="item.sampleData.saleChannel" :id="channel.title+item.data.category" @change="storeData">
+                          <label class="cbx" :for="channel.title+item.data.category">
+                            <div class="flip">
+                              <div class="front"></div>
+                              <div class="back">
+                                <svg width="10" viewBox="0 0 16 16">
+                                  <path d="M2 8.5L6 12.5L14 1.5"></path>
+                                </svg>
+                              </div>
+                            </div>
+                          </label>
+                          <label class="ml-3 small" :for="channel.title+item.data.category">
+                            {{channel.title}}
+                          </label>
+                        </div>
+                        <span class="text-danger err-msg" v-if="item.sampleData.saleChannel=='' && errorState">Kindly
+                          fill
+                          in
+                          this field.</span>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group">
+                            <label class="medium" for="lastName">What is your risk tolerance?</label>
+                            <div class="slidecontainer">
+                              <input type="range" min="0" max="100" step="100" v-model="item.sampleData.risk"
+                                class="slider" @change="storeData">
+                            </div>
+                            <div class="row large mt-3">
+                              <div class="col-md-6 col-sm-6 col-xs-6 text-lg-green cursor-pointer"
+                                @click="item.sampleData.risk=0">Low Risk</div>
+                              <div class="col-md-6 col-sm-6 col-xs-6 text-right text-lg-red cursor-pointer"
+                                @click="item.sampleData.risk=100">High Risk</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group">
+                            <label for="" class="medium">We recommend the following sample size</label>
+                            <p class="bg-gray pl-5 p-3 medium border-2">
+                              {{samplePlaceholder}}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="" class="medium">
+                          <span class="text-bold">Choose your sample size </span><span class="text-normal">(out of the
+                            whole
+                            product quantity)</span>
+                        </label>
+                        <div class="d-flex">
+                          <div v-for="sample in sampleSizeList"
+                            :class="'position-relative vertical-align mb-3 card-sample-size '+ ((item.sampleData.size==sample.title)?'active':'')">
+                            <input class="cbx-target" type="radio" :value="sample.id" v-model="item.sampleData.size"
+                              :id="sample.title+item.data.category" @change="storeData">
+                            <label class="cbx" :for="sample.title+item.data.category">
+                              <div class="flip">
+                                <div class="front"></div>
+                                <div class="back">
+                                  <svg width="10" viewBox="0 0 16 16">
+                                    <path d="M2 8.5L6 12.5L14 1.5"></path>
+                                  </svg>
+                                </div>
+                              </div>
+                            </label>
+
+                            <label :for="sample.title+item.data.category" class="w-100 item pt-2">
+                              <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                  <p class="medium text-bold">
+                                    {{sample.title}}
+                                  </p>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                  <span class="checkbox m-0"></span>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                  <p class="text-light small">
+                                    Sample Size
+                                  </p>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-right small">
+                                  {{sample.size}}
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-8 col-sm-8 col-xs-8">
+                                  <p class="text-light small">
+                                    Avg Cost
+                                  </p>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4 text-right small">
+                                  ${{sample.avgCost}}
+                                </div>
+                              </div>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="position-relative vertical-align mb-3 form-group">
+                        <input class="cbx-target" type="checkbox" :id="'hasOtherChanel'+item.data.category"
+                          v-model='item.sampleData.hasOtherChanel'>
+                        <label class="cbx mr-3" :for="'hasOtherChanel'+item.data.category">
+                          <div class="flip">
+                            <div class="front"></div>
+                            <div class="back">
+                              <svg width="10" viewBox="0 0 16 16">
+                                <path d="M2 8.5L6 12.5L14 1.5"></path>
+                              </svg>
+                            </div>
+                          </div>
+                        </label>
+                        <label class="medium" :for="'hasOtherChanel'+item.data.category">
+                          Others <span class="text-light">(I have diffrent requirement for sample size)</span>
+                        </label>
+                      </div>
+                      <div class="d-flex" v-if="item.sampleData.hasOtherChanel">
+                        <div v-for="sample in otherSampleSizeList"
+                          :class="'position-relative vertical-align mb-3 card-sample-size '+ ((item.sampleData.size==sample.title)?'active':'')">
+                          <input class="cbx-target" type="radio" :value="sample.id" v-model="item.sampleData.size"
+                            :id="sample.title+item.data.category" @change="storeData">
+                          <label class="cbx" :for="sample.title+item.data.category">
+                            <div class="flip">
+                              <div class="front"></div>
+                              <div class="back">
+                                <svg width="10" viewBox="0 0 16 16">
+                                  <path d="M2 8.5L6 12.5L14 1.5"></path>
+                                </svg>
+                              </div>
+                            </div>
+                          </label>
+
+                          <label :for="sample.title+item.data.category" class="w-100 item pt-2">
+                            <div class="row">
+                              <div class="col-md-8 col-sm-8 col-xs-8">
+                                <p class="medium text-bold">
+                                  {{sample.title}}
+                                </p>
+                              </div>
+                              <div class="col-md-4 col-sm-4 col-xs-4">
+                                <span class="checkbox m-0"></span>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-8 col-sm-8 col-xs-8">
+                                <p class="text-light small">
+                                  Sample Size
+                                </p>
+                              </div>
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right small">
+                                {{sample.size}}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-8 col-sm-8 col-xs-8">
+                                <p class="text-light small">
+                                  Avg Cost
+                                </p>
+                              </div>
+                              <div class="col-md-4 col-sm-4 col-xs-4 text-right small">
+                                ${{sample.avgCost}}
+                              </div>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </collapse>
+                </div>
+              </div>
+              <div class="col-md-12 mb-3">
+                <div class="row mb-3">
+                  <div class="col-md-12 mb-3">
+                    <div class="row mt-3">
+                      <div class="col-md-12 mt-3 text-right">
+                        <button type="button" class="btn btn-success btn-lg pr-5 pl-5 mr-3"
+                          @click="save">Proceed</button>
+                        <button type="button" class="btn btn-lg btn-grey pr-5 pl-5" @click="cancel">Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <router-view></router-view>
+          </div>
+        </div>
+        <div class="right-container col-md-4 col-sm-8 col-xs-12">
+          <div class="p-15">
+            <h3 class="text-primary h1 text-bolder  mt-1 mb-1">
+              Your Order
+            </h3>
+            <p class="text-light h6">
+              Select product to see details
+            </p>
+            <div class="form-group">
+              <select class="form-control mb-3 small-description bg-gray" v-model='selectedProduct'>
+                <option value="" disabled selected>Select Product</option>
+                <option v-for="item in productData" :value="item.data.id">{{item.data.name}}</option>
+              </select>
+              <span class="text-danger h6 err-msg" v-if="!selectedSampleSize">Details will be updated once the
+                sample
+                size for products is specified</span>
+              <div v-else>
+                <div class="text-center  border-3 mb-3">
+                  <h4 class="text-bold ">
+                    Total no. of unit to test
+                  </h4>
+                  <h3 class=" text-bold text-primary">
+                    {{selectedSampleSize.size}}
+                  </h3>
+                </div>
+                <div class="text-center border-3 mb-3">
+                  <h4 class="text-bold">Test Average Cost Per Unit</h4>
+                  <p class="text-danger h6">(Cost is calculated on total size of production order)</p>
+                  <h3 class="text-primary text-bold">
+                    ${{selectedSampleSize.avgCost}}
+                  </h3>
+                </div>
+              </div>
+            </div>
+            <h4 class="text-bold h2-2 ml-1" v-if="!hasCompleteSampleSizeDetails">
+              Estimate Cost
+            </h4>
+            <span class="text-danger h6 err-msg mt-1" v-if="!hasCompleteSampleSizeDetails">Estimate cost will be
+              calculated once you have finishd filling all the details</span>
+            <div class="mb-3" v-else>
+              <h4 class="text-bold ml-1"><span>Estimated Cost</span><span class="text-primary mr-3 right">
+                  $<!--{{selectedSampleSize.size * selectedSampleSize.avgCost}}--></span></h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  import { mapGetters } from 'vuex';
+  import API from '@/api'
+  export default {
+    name: 'SampleSize',
+    data() {
+      return {
+        state: 1,
+        errorState: false,
+        productData: [],
+        prductCollapse: [],
+        selectedProduct: '',
+        selectedSampleSize: '',
+        saleChannels: [
+          {
+            id:1,
+            title:"Brick & Mortar"
+          },
+          {
+            id:2,
+            title:"Distributor"
+          },
+           {
+            id:3,
+            title:"Amazon"
+          },
+           {
+            id:4,
+            title:"General Ecommerce"
+          }
+
+        
+        ],
+        sampleSizeList: [
+          {
+            id: 1,
+            title: 'Light',
+            size: 200,
+            avgCost: 120
+          },
+          {
+            id: 2,
+            title: 'Normal',
+            size: 500,
+            avgCost: 90
+          },
+          {
+            id: 3,
+            title: 'Strict',
+            size: 1000,
+            avgCost: 80
+          },
+          {
+            id: 4,
+            title: '100',
+            size: 100,
+            avgCost: 100
+          }
+        ],
+        otherSampleSizeList: [
+          {
+            id: 1,
+            title: 'Special Low',
+            size: 150,
+            avgCost: 115
+          },
+          {
+            id: 2,
+            title: 'Special Medium',
+            size: 400,
+            avgCost: 95
+          },
+          {
+            id: 3,
+            title: 'Special High',
+            size: 800,
+            avgCost: 85
+          },
+          {
+            id: 4,
+            title: 'Special Very High',
+            size: 1500,
+            avgCost: 75
+          }
+        ]
+
+      }
+    },
+    computed: {
+      ...mapGetters('cart', [
+        'getItem'
+      ]),
+      ...mapGetters('payment', [
+        'getData'
+      ]),
+      ...mapGetters('selectedData', [
+        'getSelectedData'
+      ]),
+      routeName() {
+        return this.$route.name
+      },
+      samplePlaceholder() {
+        if (this.getSelectedData.selectedSampleSize) {
+          return this.getSelectedData.selectedSampleSize.title + ' and we will test ' + this.getSelectedData.selectedSampleSize.size + ' unit'
+        }
+        return ''
+      },
+      hasOtherChanel() {
+        if (this.getSelectedData.selectedProductData) {
+          return this.getSelectedData.selectedProductData.sampleData.hasOtherChanel
+        }
+        return false
+      },
+      hasCompleteSampleSizeDetails() {
+        if (this.getSelectedData.selectedProductData) {
+          return (this.isEmpty(this.getSelectedData.selectedProductData.sampleData, false))
+        }
+        return false
+      }
+    },
+    methods: {
+
+      storeData() {
+        var that = this
+        this.productData.forEach(v => {
+          if (v.data.category == this.selectedProduct) {
+            if (v.sampleData.size) {
+              var selectedSampleSize = this.sampleSizeList.find(i => i.title == v.sampleData.size)
+              selectedSampleSize = (selectedSampleSize) ? selectedSampleSize : this.otherSampleSizeList.find(i => i.title == v.sampleData.size)
+              this.selectedSampleSize = selectedSampleSize
+            }
+            else {
+              this.selectedSampleSize = selectedSampleSize
+            }
+          }
+        })
+        if (this.productData.length > 0) {
+          API.setCartItem(this.productData).then(function () {
+            that.$store.dispatch('cart/getItem')
+          })
+        }
+      },
+      save() {
+        console.log(this.productData);
+       console.log(this.getItem)
+        this.$router.push({ name: 'Product Test' })
+      },
+      cancel() {
+        this.$router.push({ name: 'Product Specifications' })
+      },
+      selectProduct(index) {
+        this.$store.commit('selectedData/selectedProduct', this.productData[index].data.category)
+        this.selectedProduct = this.getSelectedData.selectedProduct
+        this.changeProductData()
+        this.$store.commit('selectedData/selectedProductData', this.productData[index])
+
+
+      },
+      isEmpty(obj, arrAllowEmpty) {
+        var status = true
+        if (Array.isArray(obj)) {
+          for (var i = 0; i < obj.length; i++) {
+            status = this.isEmpty(obj[i])
+            if (!status) {
+              break
+            }
+          }
+          if (obj.length == 0 && !arrAllowEmpty) {
+            status = false
+          }
+        }
+        else if (typeof (obj) == 'object') {
+          let input = Object.keys(obj)
+          for (var i = 0; i < input.length; i++) {
+            status = this.isEmpty(obj[input[i]])
+            if (!status) {
+              break
+            }
+          }
+        }
+        else {
+       //   obj = obj.toString()
+          status = (obj != '')
+        }
+        return status
+      },
+      changeProductData() {
+        this.storeData()
+        var index = this.productData.map(i => i.data.category).indexOf(this.getSelectedData.selectedProduct)
+        this.prductCollapse = this.prductCollapse.map((v, i) => i === index)
+        this.$store.dispatch('cart/getItem')
+        this.productData.forEach(v => {
+          if (v.data.category == this.selectedProduct) {
+            if (v.sampleData.size) {
+              var selectedSampleSize = this.sampleSizeList.find(i => i.title == v.sampleData.size)
+              selectedSampleSize = (selectedSampleSize) ? selectedSampleSize : this.otherSampleSizeList.find(i => i.title == v.sampleData.size)
+              this.selectedSampleSize = selectedSampleSize
+            }
+            else {
+              this.selectedSampleSize = selectedSampleSize
+            }
+          }
+        })
+      },
+      init() {
+        console.log(this.selectedSampleSize)
+        this.$store.dispatch('cart/getItem').then(() => {
+          this.productData = JSON.parse(JSON.stringify(this.getItem))
+          this.productData.forEach((v, i) => {
+            v.sampleData = (v.sampleData) ? v.sampleData : {}
+            v.sampleData.saleChannel = (v.sampleData.saleChannel) ? v.sampleData.saleChannel : []
+            this.prductCollapse[i] = (v.data.category == this.getSelectedData.selectedProduct)
+          });
+        })
+        this.$store.dispatch('payment/getData')
+        this.$store.dispatch('selectedData/getSelectedData').then(() => {
+          this.selectedProduct = this.getSelectedData.selectedProduct
+          this.productData.forEach(v => {
+            if (v.data.category == this.selectedProduct) {
+              if (v.sampleData.size) {
+                var selectedSampleSize = this.sampleSizeList.find(i => i.title == v.sampleData.size)
+                selectedSampleSize = (selectedSampleSize) ? selectedSampleSize : this.otherSampleSizeList.find(i => i.title == v.sampleData.size)
+                this.selectedSampleSize = selectedSampleSize
+              }
+              else {
+                this.selectedSampleSize = selectedSampleSize
+              }
+            }
+          })
+        })
+        this.changeProductData()
+
+      }
+    },
+    created() {
+      this.init()
+    },
+    watch: {
+      getSelectedData() {
+        this.selectedProduct = this.getSelectedData.selectedProduct
+        this.changeProductData()
+      },
+      selectedProduct() {
+        this.$store.commit('selectedData/selectedProduct', this.selectedProduct)
+        this.changeProductData()
+      },
+      selectedSampleSize() {
+        this.$store.commit('selectedData/selectedSampleSize', this.selectedSampleSize)
+      }
+    },
+  }
+</script>

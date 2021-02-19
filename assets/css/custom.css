@@ -1,0 +1,185 @@
+.img-logo {
+  margin: 100px auto;
+}
+
+.login-img-logo {
+  height: 100px;
+  width: auto;
+}
+
+.text-red {
+  color: #ff0000;
+}
+
+.widget-user {
+  min-height: 30px;
+}
+.widget-user img {
+  height: 50px;
+  float: left;
+}
+/*.widget-user .wid-u-info {
+  margin-left: 90px;
+}*/
+.widget-user .wid-u-info p,
+.widget-user .wid-u-info h4 {
+  white-space: nowrap;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.screen {
+  width: 100%;
+}
+.form-align {
+  margin-left: 80px;
+  margin-right: 80px;
+}
+.login-lbl-color {
+  color: #858c91;
+}
+.upload-icon {
+  position: absolute;
+  border-radius: 50%;
+  top: 65px;
+  left: 54%;
+  background-color: #dedede;
+  color: #000000;
+}
+.upload-icon:hover {
+  background: #ececec;
+  color: #000000;
+}
+.nurse-heading {
+  margin-left: -10px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: -4%;
+  margin-bottom: 2%;
+  /* color:#2A362C; */
+}
+@media (max-width: 480px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+  .nurse-heading {
+    margin-left: 13px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: -2%;
+    margin-bottom: 2%;
+    padding-top: 15px;
+  }
+}
+@media (max-width: 768px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+  .nurse-heading {
+    margin-left: 15px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: -2%;
+    margin-bottom: 2%;
+    padding-top: 15px;
+  }
+}
+.uploaded-images {
+  max-width: 128px;
+  height: 128px;
+}
+.p-10 {
+  padding: 10px;
+}
+label {
+  font-weight: 600;
+}
+@media only screen and (max-width: 766px) {
+  .form-align {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  .nav-tabs.nav-justified {
+    width: 100% !important;
+    border-bottom: 0;
+  }
+  .box-padding {
+    padding: 0px !important;
+  }
+}
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:focus,
+.nav-pills > li.active > a:hover {
+  color: #5b69bc !important;
+  background: #ffffff;
+  border-bottom: 2px solid #5b69bc !important;
+}
+.nav-tabs > li > a:hover {
+  border-color: #fff #fff #fff !important;
+}
+.nav-tabs.nav-justified {
+  width: 50%;
+  border-bottom: 0;
+}
+/* .nav-tabs.nav-justified > li > a {
+  border-bottom: none !important;
+} */
+.nav-tabs a {
+  color: #858c91;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border-top: 1px solid #fff !important;
+  border-left: 1px solid #fff !important;
+  border-right: 1px solid #fff !important;
+  border-bottom-color: transparent;
+}
+.box-padding {
+  padding: 80px 0px 60px 80px;
+}
+.edit {
+  color: #53d49a !important;
+}
+.delete_btn {
+  color: red !important;
+}
+table.dataTable thead > tr > th {
+  padding-left: 8px;
+  padding-right: 30px;
+  font-weight: bold;
+  font-size: 16px;
+  /* color: #3b3e47 !important; */
+}
+tbody > tr {
+  font-size: 14px;
+}
+#datatable-ajax a {
+  padding: 5px;
+}
+tbody {
+  color: #3b3e47 !important;
+}
+div.dataTables_length label {
+  font-family: "Karla" !important;
+  font-weight: 600 !important;
+  color: #666666 !important;
+}
+.dataTables_filter label {
+  font-family: "Karla" !important;
+  font-weight: 600 !important;
+  color: #666666 !important;
+}
+.dataTables_info {
+  font-family: "Karla" !important;
+  font-weight: 600 !important;
+  color: #666666 !important;
+}
+.pagination {
+  font-family: "Karla" !important;
+  font-weight: 600 !important;
+  color: #666666 !important;
+}
+.pagination > .active > a {
+  background-color: #5b69bc !important;
+  border-color: #5b69bc !important;
+}

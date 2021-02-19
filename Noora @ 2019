@@ -1,0 +1,271 @@
+<?php 
+include "header.php";
+$entry_id='';
+if(isset($_GET['id']))
+{
+	$entry_id=$_GET['id'];
+}
+//echo "hai".$entry_id;
+$First_Name='';
+$Last_Name='';
+$Email='';
+$Mobile_Number='';
+$Role_ID='';
+
+$query1= "SELECT * FROM ".$table_admin." where ID='$entry_id' limit 1";
+$res1= mysqli_query($link,$query1);
+if(mysqli_num_rows($res1)>0)
+{
+	while($row1 = mysqli_fetch_array($res1))
+	{
+		$First_Name=$row1['First_Name'];
+		$Last_Name=$row1['Last_Name'];
+		$Email=$row1['Email'];
+		$Mobile_Number=$row1['Mobile_Number'];
+		$Role_ID=$row1['Role_ID'];
+	}
+}
+
+require_once("csrf.class.php");
+$csrf = new csrf();
+$token_id = $csrf->get_token_id();
+$token_value = $csrf->get_token($token_id);
+
+?>
+<style type="text/css">
+.profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+}
+
+.file-upload {
+    display: none;
+}
+.circle {
+    border-radius: 1000px !important;
+    overflow: hidden;
+    width: 128px;
+    height: 128px;
+    border: 8px solid rgba(255, 255, 255, 0.7);
+    position: relative;
+    top: 72px;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+.p-image {
+  position: absolute;
+  top: 167px;
+  right: 30px;
+  color: #666666;
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.p-image:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+}
+.upload-button {
+  font-size: 1.2em;
+}
+
+.upload-button:hover {
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  color: #999;
+}
+</style>
+            <!-- ============================================================== -->
+            <!-- Start right Content here -->
+            <!-- ============================================================== -->
+             <div class="topbar">
+
+                <!-- LOGO -->
+                <div class="topbar-left">
+                    <!--a href="index" class="logo"><span>Noora<span></span></span><i class="zmdi zmdi-layers"></i></a-->
+                </div>
+
+                <!-- Button mobile view to collapse sidebar menu -->
+                <div class="navbar navbar-default" role="navigation">
+                    <div class="container">
+
+                        <!-- Page title -->
+                        <ul class="nav navbar-nav navbar-left">
+                            <li>
+                                <button class="button-menu-mobile open-left">
+                                    <i class="zmdi zmdi-user"></i>
+                                </button>
+                            </li>
+                            <li>
+                                <h4 class="page-title">Add Admin / Manager</h4>
+                            </li>
+                        </ul>
+
+                        <!-- Right(Notification and Searchbox -->
+                        <!--ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <!-- Notification ->
+                                <div class="notification-box">
+                                    <ul class="list-inline m-b-0">
+                                        <li>
+                                            <a href="javascript:void(0);" class="right-bar-toggle">
+                                                <i class="zmdi zmdi-notifications-none"></i>
+                                            </a>
+                                            <div class="noti-dot">
+                                                <span class="dot"></span>
+                                                <span class="pulse"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- End Notification bar ->
+                            </li>
+                            <li class="hidden-xs">
+                                <form role="search" class="app-search">
+                                    <input type="text" placeholder="Search..."
+                                           class="form-control">
+                                    <a href=""><i class="fa fa-search"></i></a>
+                                </form>
+                            </li>
+                        </ul-->
+
+                    </div><!-- end container -->
+                </div><!-- end navbar -->
+            </div>
+            <div class="content-page">
+                <!-- Start content -->
+                <div class="content">
+
+                    <div class="container">
+
+
+                        <div class="row">
+                            <div class="col-lg-2 col-xs-0"></div>
+                            <div class="col-lg-8 screen" >
+                                <div class="card-box">
+                        			
+ 
+									<form id="db_entry_form" action="profile_entry" class="form-horizontal form-align" method="post" data-parsley-validate novalidate>
+										<input type="hidden" name="<?= $token_id; ?>" value="<?= $token_value; ?>" />
+										<input type="hidden" id="entry_id" name="entry_id" value="<?= $entry_id;?>">  
+									<div class="row"></div>
+											<div class="row">
+
+												<div class="col-lg-5">
+													<div class="form-group">
+														<label for="userName">First Name*</label>
+														<input type="text" name="First_Name" parsley-trigger="change" required
+															   placeholder="Your First Name" class="form-control" id="First_Name" value="<?= $First_Name;?>">
+													</div>
+												</div>
+												<div class="col-lg-1"></div>
+												<div class="col-lg-5">
+													<div class="form-group">
+														<label for="userName">Last Name*</label>
+														<input type="text" name="Last_Name" parsley-trigger="change" required
+															   placeholder="Your Last Name" class="form-control" id="Last_Name" value="<?= $Last_Name;?>">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-11">
+													<div class="form-group">
+														<label for="emailAddress">Email*</label>
+														<input type="email" name="Email" parsley-trigger="change" required
+															   placeholder="Enter email" class="form-control" id="Email" value="<?= $Email;?>">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-5">
+													<div class="form-group">
+														<label for="pass1">Password*</label>
+														<input id="pass1" type="password" placeholder="Enter Password" required
+															   class="form-control">
+													</div>
+												</div>
+												<div class="col-lg-1"></div>
+												<div class="col-lg-5">
+													<div class="form-group">
+														<label for="passWord2">Confirm Password *</label>
+														<input data-parsley-equalto="#pass1" type="password" required
+															   placeholder="Retype Password" class="form-control" id="passWord2">
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-11">
+													<div class="form-group">
+														<label class="control-label" for="example-input1-group3">Mobile Number</label>
+														<div class="input-group">
+															<div class="input-group-btn">												
+																<button type="button" class="btn waves-effect waves-light btn-default dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; position: relative;">+91 <!--span class="caret"></span--></button>
+																<!--ul class="dropdown-menu">
+																	<li><a href="javascript:void(0)">+91</a></li>
+																</ul-->
+															</div>
+															<input type="text" id="example-input1-group3" name="Mobile_Number" class="form-control" placeholder="Your Mobile Number here" value="<?= $Mobile_Number;?>">
+														</div>
+													</div>
+                                                 </div>
+											</div>
+										
+										
+
+                                        <div class="form-group text-center m-b-0">
+                                            <button type="reset" class="btn btn-default waves-effect waves-light m-l-5">
+                                                Cancel
+                                            </button>
+                                            <button class="btn btn-primary waves-effect waves-light" type="submit" name="submit">
+                                                Save
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div><!-- end col -->
+                         </div>
+
+
+
+
+                    </div> <!-- container -->
+
+                </div> <!-- content -->
+
+                <footer class="footer text-right">
+                    <?php echo date('Y');?> © Noora.
+                </footer>
+
+            </div>
+
+
+            <!-- ============================================================== -->
+            <!-- End Right content here -->
+            <!-- ============================================================== -->
+
+<?php 
+include "footer.php";
+?>
+<!-- Validation js (Parsleyjs) -->
+<script type="text/javascript">
+$('#verborgen_file').show();
+        $('#uploadButton').on('click', function () {
+              $('#verborgen_file').click();
+        });
+
+        $('#verborgen_file').change(function () {
+            var file = this.files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+			   $(this).attr("pf_foto", "noora/assets/images/gallery/1.jpg");
+               $('#pf_foto').css('background-image', 'url("' + reader.result + '")');
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+            }
+        });  
+
+</script>
+<script type="text/javascript" src="assets/plugins/parsleyjs/dist/parsley.min.js"></script>
+       

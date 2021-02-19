@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="37" height="37" viewBox="0 0 37 37">
+  <g id="Group_54" data-name="Group 54" transform="translate(-589 -95)">
+    <g id="Ellipse_54" data-name="Ellipse 54" transform="translate(589 95)" fill="none" stroke="#dce1dc" stroke-width="1">
+      <circle cx="18.5" cy="18.5" r="18.5" stroke="none"/>
+      <circle cx="18.5" cy="18.5" r="18" fill="none"/>
+    </g>
+    <g id="nurse" transform="translate(598.04 105)">
+      <g id="Group_47" data-name="Group 47" transform="translate(1.96)">
+        <path id="Path_513" data-name="Path 513" d="M9.881,0A10.72,10.72,0,0,0,3.013,2.749a2.98,2.98,0,0,0-.824,3.418L3.367,8.993a7.156,7.156,0,0,1,13.108.179L17.73,6.161a2.978,2.978,0,0,0-.812-3.407A10.834,10.834,0,0,0,9.881,0ZM11.3,3.214h-.827v.867H9.32V3.214H8.452V2.058H9.32V1.19h1.154v.868H11.3Z" transform="translate(-1.96)" fill="#4bb75e"/>
+        <path id="Path_514" data-name="Path 514" d="M14.3,11.43l0,0a11.86,11.86,0,0,1-5.6,4.407.335.335,0,0,1-.361-.534,5.857,5.857,0,0,0,.453-.6.455.455,0,0,0-.5-.687A4.616,4.616,0,0,0,4.867,17.4,6.286,6.286,0,1,0,14.3,11.43Z" transform="translate(-3.207 -4.905)" fill="#4bb75e"/>
+      </g>
+    </g>
+  </g>
+</svg>

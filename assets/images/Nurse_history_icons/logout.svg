@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="43" height="43" viewBox="0 0 43 43">
+  <g id="Logout" transform="translate(-4242 -1384)">
+    <circle id="Ellipse_76" data-name="Ellipse 76" cx="21.5" cy="21.5" r="21.5" transform="translate(4242 1384)" fill="#5b69bc"/>
+    <g id="logout-2" data-name="logout" transform="translate(4253 1394.15)">
+      <g id="Group_53" data-name="Group 53" transform="translate(0 0.85)">
+        <g id="Group_52" data-name="Group 52">
+          <path id="Path_525" data-name="Path 525" d="M10.963,20.95H2.741a.914.914,0,0,1-.914-.914V3.591a.914.914,0,0,1,.914-.914h8.223a.914.914,0,0,0,0-1.827H2.741A2.744,2.744,0,0,0,0,3.591V20.036a2.744,2.744,0,0,0,2.741,2.741h8.223a.914.914,0,1,0,0-1.827Z" transform="translate(0 -0.85)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_55" data-name="Group 55" transform="translate(7.309 5.418)">
+        <g id="Group_54" data-name="Group 54">
+          <path id="Path_526" data-name="Path 526" d="M184.519,112.909l-5.555-5.482a.914.914,0,0,0-1.283,1.3l3.97,3.918H171.014a.914.914,0,0,0,0,1.827h10.637l-3.97,3.918a.913.913,0,1,0,1.283,1.3l5.555-5.482a.913.913,0,0,0,0-1.3Z" transform="translate(-170.1 -107.165)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
